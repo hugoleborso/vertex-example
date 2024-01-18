@@ -1,0 +1,7 @@
+# Dockerfile for Qdrant
+FROM qdrant/qdrant
+
+# Expose the ports used by Qdrant
+EXPOSE 6333 6334
+
+# The entrypoint is already set in the base image, so no need to define it here

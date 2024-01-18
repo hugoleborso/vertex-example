@@ -1,0 +1,5 @@
+vertex-ex-venv
+__pycache__
+
+engine-imgs
+qdrant_storage
