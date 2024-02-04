@@ -1,8 +1,12 @@
+import argparse
+import os
+import shutil
 import time
 from tqdm import tqdm  # type: ignore
 from pathlib import Path
 from concurrent.futures import ThreadPoolExecutor
 
+from db import VectorDB  # type: ignore
 from vertex import EmbeddingsClient  # type: ignore
 
 
@@ -19,6 +23,7 @@ def get_image_embeddings(img_bytes):
 
 requests_per_minute = 120
 request_interval = (60 / requests_per_minute) * 1.10  # 10 % margin for safety
+ALLOWED_FILE_EXTENSIONS = [".jpg", ".png", ".jpeg"]
 
 
 def load_image_embeddings(dataset_folder: str) -> tuple[list[list[float]], list[Path]]:
@@ -28,11 +33,10 @@ def load_image_embeddings(dataset_folder: str) -> tuple[list[list[float]], list[
     with ThreadPoolExecutor() as executor:
         futures = []
 
-        extensions = ["*.jpg", "*.png", "*.jpeg"]
         all_image_paths = [
             path
-            for ext in extensions
-            for path in Path(dataset_folder).glob("**/" + ext)
+            for path in Path(dataset_folder).rglob("*")
+            if path.suffix in ALLOWED_FILE_EXTENSIONS
         ]
 
         progress_bar = tqdm(
@@ -54,3 +58,31 @@ def load_image_embeddings(dataset_folder: str) -> tuple[list[list[float]], list[
         progress_bar.close()
 
     return (all_embeddings, all_images_path)
+
+
+def main():
+    parser = argparse.ArgumentParser(
+        description="Compute embeddings for images using Vertex AI."
+    )
+    parser.add_argument(
+        "dataset_folder", type=str, help="The folder containing the dataset images."
+    )
+    args = parser.parse_args()
+    dataset_folder = args.dataset_folder
+    vector_db = VectorDB()
+    print(f"Computing embeddings for dataset in folder: {dataset_folder}")
+
+    os.makedirs("backend/engine-imgs", exist_ok=True)
+    for file in Path(dataset_folder).rglob("*"):
+        if file.suffix in ALLOWED_FILE_EXTENSIONS:
+            shutil.copy2(file, "backend/engine-imgs")
+
+    embeddings, images_path = load_image_embeddings(dataset_folder)
+    print(f"Inserting {len(embeddings)} embeddings into the database.")
+    for i, embedding in enumerate(embeddings):
+        vector_db.insert(i, embedding, {"image_path": str(images_path[i].name)})
+    return {"message": "Embeddings computed and inserted into the database."}
+
+
+if __name__ == "__main__":
+    main()

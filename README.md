@@ -1,6 +1,6 @@
 # Image and Text Search Application
 
-This repository contains the source code for an application that allows users to search for images and text.
+This repository contains the source code for an application that allows users to search for images using images or text.
 
 ## Features
 
@@ -16,7 +16,7 @@ This repository contains the source code for an application that allows users to
 - FastAPI
 - Python
 - Qdrant
-- Vertex AI
+- GCP Vertex AI Embeddings API
 
 ## Getting Started
 
@@ -30,13 +30,16 @@ This repository contains the source code for an application that allows users to
 #### How to get a Gcp Vertex AI account
 To get a GCP Vertex AI account, follow the instructions on the [Vertex AI documentation](https://cloud.google.com/vertex-ai/docs/start/quickstart).
 
+### Connect to your gcloud account in console
+Follow the steps on the [gcloud doc](https://cloud.google.com/sdk/docs/install#mac)
+
 
 ### Setup
 
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/yourusername/your-repo-name.git
+git clone https://github.com/hugoleborso/vertex-example.git
 ```
 
 2. Install the dependencies
@@ -52,16 +55,17 @@ npm install
 cd backend
 pip install -r requirements.txt
 ```
-Set up the Qdrant database :
+
+4. Set up the Qdrant database :
 You can set up Qdrant using Docker. Run the following command to start the Qdrant service:
 ```bash
 docker-compose up
 ```
 
-4. Set up the Vertex AI account:
+5. Set up the Vertex AI account:
 Follow the instructions on the Vertex AI documentation to create a new account and get your API key. Then, update the VERTEX_API_KEY in your environment variables with your new API key.
 
-5. Start the application:
+6. Start the application:
 #### Start the frontend
 ```bash
 cd frontend
@@ -73,3 +77,12 @@ npm start
 cd backend
 python main.py
 ```
+
+
+### Adding images to the search engine
+To add images to the search engine, you can use the following script:
+```bash
+python backend/load_image_embeddings.py <your image folder>
+```
+
+This allows images with extensions .jpg, .jpeg, .png to be added to the search engine.

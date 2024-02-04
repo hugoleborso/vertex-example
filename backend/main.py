@@ -1,16 +1,12 @@
-import os
 import base64
-import shutil
 from fastapi.staticfiles import StaticFiles
 import uvicorn
 
-from pathlib import Path
 from fastapi import FastAPI
 from pydantic import BaseModel
 
 from db import VectorDB
 from vertex import EmbeddingsClient
-from scripts.load_image_embeddings import load_image_embeddings
 
 from fastapi.middleware.cors import CORSMiddleware
 
@@ -79,22 +75,6 @@ def search_image(query: ImageQuery):
             )
 
     return res
-
-
-@app.post("/store-images")
-def store_images(dataset_folder: str):
-    print(f"Computing embeddings for dataset in folder: {dataset_folder}")
-
-    os.makedirs("engine-imgs", exist_ok=True)
-    for file in Path(dataset_folder).rglob("*"):
-        if file.suffix in ALLOWED_FILE_EXTENSIONS:
-            shutil.copy2(file, "engine-imgs")
-
-    embeddings, images_path = load_image_embeddings(dataset_folder)
-    print(f"Inserting {len(embeddings)} embeddings into the database.")
-    for i, embedding in enumerate(embeddings):
-        vector_db.insert(i, embedding, {"image_path": str(images_path[i].name)})
-    return {"message": "Embeddings computed and inserted into the database."}
 
 
 if __name__ == "__main__":

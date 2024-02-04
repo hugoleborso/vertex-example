@@ -5,3 +5,4 @@ google
 tqdm
 types-tqdm
 google-cloud-aiplatform
+argparse
