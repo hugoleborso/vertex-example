@@ -6,3 +6,4 @@ tqdm
 types-tqdm
 google-cloud-aiplatform
 argparse
+python-dotenv

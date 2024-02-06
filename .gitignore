@@ -3,3 +3,5 @@ __pycache__
 
 engine-imgs
 qdrant_storage
+
+.env

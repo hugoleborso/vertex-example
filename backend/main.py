@@ -1,20 +1,22 @@
 import os
 import base64
-from fastapi.staticfiles import StaticFiles
+
 import uvicorn
 
-from fastapi import FastAPI
 from pydantic import BaseModel
+from fastapi import FastAPI
+from fastapi.staticfiles import StaticFiles
+from fastapi.middleware.cors import CORSMiddleware
+
 
 from db import VectorDB
 from vertex import EmbeddingsClient
 
-from fastapi.middleware.cors import CORSMiddleware
-
-
 app = FastAPI()
 vector_db = VectorDB()
 embeddings_client = EmbeddingsClient()
+
+
 
 
 ALLOWED_FILE_EXTENSIONS = [".jpg", ".jpeg", ".png"]

@@ -1,15 +1,18 @@
+import os
 import base64
 from google.cloud import aiplatform  # type: ignore
 from google.protobuf import struct_pb2  # type: ignore
+from dotenv import load_dotenv
 
-MY_GCP_PROJECT_ID = "article-vertex"
-MY_GCP_REGION = "us-central1"
 
+load_dotenv(".env")
+GCP_PROJECT_ID = os.getenv("GCP_PROJECT_ID")
+GCP_REGION = os.getenv("GCP_REGION")
 
 class EmbeddingsClient:
     def __init__(self) -> None:
-        self.project_id = MY_GCP_PROJECT_ID
-        self.location = MY_GCP_REGION
+        self.project_id = GCP_PROJECT_ID
+        self.location = GCP_REGION
         self.endpoint = (
             f"projects/{self.project_id}/locations/{self.location}"
             "/publishers/google/models/multimodalembedding@001"
