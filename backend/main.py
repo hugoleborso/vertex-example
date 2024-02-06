@@ -1,3 +1,4 @@
+import os
 import base64
 from fastapi.staticfiles import StaticFiles
 import uvicorn
@@ -27,6 +28,7 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+os.makedirs("engine-imgs", exist_ok=True)
 app.mount("/images", StaticFiles(directory="engine-imgs"), name="images")
 
 

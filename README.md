@@ -52,6 +52,8 @@ npm install
 
 #### For the backend
 ```bash
+python3.11 -m venv vertex-ex-venv
+source vertex-ex-venv/bin/activate
 cd backend
 pip install -r requirements.txt
 ```
