@@ -5,23 +5,14 @@ This repository contains the source code for an application that allows users to
 ## Getting Started
 
 ### How to get a Gcp Vertex AI account
-Start by creating your GCP account [here]() if you do not have one.
+Start by creating your GCP account [here](https://console.cloud.google.com/?hl=fr) if you do not have one.
 You can get a free trial account with $300 in credits to use for 90 days here: [GCP Free Trial](https://cloud.google.com/free/docs/free-cloud-features?hl=fr#free-trial)
 
 
 ### Connect to your gcloud account in terminal
 Install the gcloud sdk from the [gcloud doc](https://cloud.google.com/sdk/docs/install#mac)
 
-You can now now follows the instructions on the [GCP documentation](https://cloud.google.com/vertex-ai/docs/generative-ai/embeddings/get-multimodal-embeddings?hl=fr) to create a new project and enable the Vertex AI API, or continue to follow this guide
-
-When everything is set up, you can connect to your gcloud project using the following command:
-```bash
-gcloud init
-```
-And then run 
-```bash
-gcloud auth application-default login
-```
+You can now now follows the instructions on the [Vertex GCP documentation](https://cloud.google.com/vertex-ai/docs/generative-ai/embeddings/get-multimodal-embeddings?hl=fr) to create a new project and enable the Vertex AI API.
 
 
 ### Setup
